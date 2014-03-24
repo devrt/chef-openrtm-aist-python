@@ -17,13 +17,13 @@
 # limitations under the License.
 #
 
-include_recipe "build-essential"
-include_recipe "subversion::client"
-include_recipe "python"
-include_recipe "omniorb"
-include_recipe "omniorbpy"
+include_recipe 'build-essential'
+include_recipe 'subversion::client'
+include_recipe 'python'
+include_recipe 'omniorb'
+include_recipe 'omniorbpy'
 
-bash "compile_openrtm-aist-python" do
+bash 'compile_openrtm-aist-python' do
   cwd "#{Chef::Config['file_cache_path']}/OpenRTM-aist-Python"
   code <<-EOH
       python setup.py build_core build_example
@@ -32,11 +32,10 @@ bash "compile_openrtm-aist-python" do
   action :nothing
 end
 
-subversion "OpenRTM-aist-Python" do
-  repository "http://svn.openrtm.org/OpenRTM-aist-Python/branches/RELENG_1_1/OpenRTM-aist-Python/"
-  revision "HEAD"
+subversion 'OpenRTM-aist-Python' do
+  repository 'http://svn.openrtm.org/OpenRTM-aist-Python/branches/RELENG_1_1/OpenRTM-aist-Python/'
+  revision 'HEAD'
   destination "#{Chef::Config[:file_cache_path]}/OpenRTM-aist-Python"
   action :sync
-  notifies :run, "bash[compile_openrtm-aist-python]", :immediately
+  notifies :run, 'bash[compile_openrtm-aist-python]', :immediately
 end
-
